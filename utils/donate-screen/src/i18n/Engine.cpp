@@ -47,7 +47,6 @@ There's also Hyprperks for 5€ + tax / month, which includes a few small "thank
     registerEntry("en_US", TXT_KEY_DONATE_THANKYOU, "💝 Thank you!");
     registerEntry("en_US", TXT_KEY_DONATE_NOTHANKS, "No thanks");
 
-
     // it_IT (Italian)
     registerEntry("it_IT", TXT_KEY_DONATE_TITLE, "Supporta Hyprland");
     registerEntry("it_IT", TXT_KEY_DONATE_CONTENT, R"#(Hyprland è creato e mantenuto da volontari, con una persona che ci lavora a tempo pieno.
@@ -68,6 +67,6 @@ std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::tr
     static auto CONFIG_LOCALE = CConfigValue<std::string>("general:locale");
     std::string locale        = *CONFIG_LOCALE != "" ? *CONFIG_LOCALE : localeStr;
     */
-   std::string locale = localeStr;
+    std::string locale = localeStr;
     return huEngine->localizeEntry(locale, key, vars);
 }

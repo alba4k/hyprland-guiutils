@@ -120,7 +120,13 @@ int main(int argc, char** argv, char** envp) {
 
     //
     const Vector2D WINDOW_SIZE = {350, 100};
-    auto           window = CWindowBuilder::begin()->preferredSize(WINDOW_SIZE)->minSize(WINDOW_SIZE)->maxSize(WINDOW_SIZE)->appTitle(I18n::i18nEngine()->localize(I18n::TXT_KEY_RUN_TITLE))->appClass("hyprland-run")->commence();
+    auto           window      = CWindowBuilder::begin()
+                                     ->preferredSize(WINDOW_SIZE)
+                                     ->minSize(WINDOW_SIZE)
+                                     ->maxSize(WINDOW_SIZE)
+                                     ->appTitle(I18n::i18nEngine()->localize(I18n::TXT_KEY_RUN_TITLE))
+                                     ->appClass("hyprland-run")
+                                     ->commence();
 
     window->m_rootElement->addChild(CRectangleBuilder::begin()->color([] { return backend->getPalette()->m_colors.background; })->commence());
 
@@ -134,8 +140,11 @@ int main(int argc, char** argv, char** envp) {
     layout->addChild(state.layoutInner);
     state.layoutInner->setGrow(true);
 
-    state.content =
-        CTextBuilder::begin()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_RUN_TITLE))->fontSize(CFontSize{CFontSize::HT_FONT_TEXT})->color([] { return backend->getPalette()->m_colors.text; })->commence();
+    state.content = CTextBuilder::begin()
+                        ->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_RUN_TITLE))
+                        ->fontSize(CFontSize{CFontSize::HT_FONT_TEXT})
+                        ->color([] { return backend->getPalette()->m_colors.text; })
+                        ->commence();
 
     state.textbox = CTextboxBuilder::begin()
                         ->placeholder(I18n::i18nEngine()->localize(I18n::TXT_KEY_RUN_INPUT))

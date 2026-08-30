@@ -41,7 +41,8 @@ I18n::CI18nEngine::CI18nEngine() {
     registerEntry("en_US", TXT_KEY_WELCOME_ECOSYSTEM, "Hypr ecosystem");
     registerEntry("en_US", TXT_KEY_WELCOME_THATSIT, "That's it!");
 
-    registerEntry("en_US", TXT_KEY_WELCOME_CONTENT1, R"#(We hope you enjoy your stay. In order to help you get accommodated to Hyprland in an easier manner, we prepared a little basic setup tutorial, just for you.
+    registerEntry("en_US", TXT_KEY_WELCOME_CONTENT1,
+                  R"#(We hope you enjoy your stay. In order to help you get accommodated to Hyprland in an easier manner, we prepared a little basic setup tutorial, just for you.
 
 If you feel adventurous, or are an advanced user, you can click the "Thanks, but I don't need help" button on the bottom. It will close this window and never show it again.
 
@@ -50,7 +51,8 @@ If you want to manually launch this welcome app, just execute hyprland-welcome i
 Click the "Next" button to proceed to the next step of your setup :)
 )#");
 
-    registerEntry("en_US", TXT_KEY_WELCOME_CONTENT2, R"#(The first thing we'll need to do is get some packages installed that you absolutely need in order for your system to be working properly.
+    registerEntry("en_US", TXT_KEY_WELCOME_CONTENT2,
+                  R"#(The first thing we'll need to do is get some packages installed that you absolutely need in order for your system to be working properly.
 Apps with a <span foreground="#cc2222">*</span> are <span foreground="red"><i>absolutely necessary</i></span> for a working system. All other are <span foreground="red"><i>highly</i></span> recommended, as they provide core parts of a working environment.
 You can proceed without any of those, but it's not advised.
 
@@ -66,7 +68,9 @@ This list refreshes automatically.</i>)#");
     registerEntry("en_US", TXT_KEY_WELCOME_CONTENT3, R"#(We know that not everyone uses kitty and dolphin. That's why we let you choose.
 If you wish to change the defaults, use the dropdowns below.)#");
 
-    registerEntry("en_US", TXT_KEY_WELCOME_CONTENT4, R"#(Now that you've installed the basic apps, you might want some of them to autostart. Hyprland doesn't automatically start anything for you, you need to tell it to.
+    registerEntry(
+        "en_US", TXT_KEY_WELCOME_CONTENT4,
+        R"#(Now that you've installed the basic apps, you might want some of them to autostart. Hyprland doesn't automatically start anything for you, you need to tell it to.
 Go to ~/.config/hypr/hyprland.lua, and add "hl.exec_cmd("appname")" surrounded by hl.on() to launch your apps, for example:
 hl.on("hyprland.start", function ()
     hl.exec_cmd("hyprpaper")
@@ -79,14 +83,14 @@ A great point to start is the Hyprland wiki at https://wiki.hypr.land. There, th
 
 If you prefer pre-configured settings, or "dotfiles", you can see the "Preconfigured setups" section on the wiki, or search online. <span foreground="#cc2222">Important note:</span> dotfiles can run <i>anything</i> on your computer. Make sure you trust the source.)#");
 
-registerEntry("en_US", TXT_KEY_WELCOME_CONTENT5, R"#(Hyprland has a wide ecosystem of apps specifically made for it.
+    registerEntry("en_US", TXT_KEY_WELCOME_CONTENT5, R"#(Hyprland has a wide ecosystem of apps specifically made for it.
 Unlike some other popular DEs, it does not force you to use most of them by default.
 
 You can install those elements separately, only those that you need.
 
 Check the wiki under "Hypr Ecosystem" to see all of the apps, their usage and configuration.)#");
 
-registerEntry("en_US", TXT_KEY_WELCOME_CONTENT6, R"#(That's it for this small introduction! Explore the wiki, and various apps, and enjoy your journey!
+    registerEntry("en_US", TXT_KEY_WELCOME_CONTENT6, R"#(That's it for this small introduction! Explore the wiki, and various apps, and enjoy your journey!
 
 Here are some important default shortcuts:
 • SUPER + Q <span foreground="#666666">=</span> Terminal
@@ -172,7 +176,8 @@ Questa lista si aggiorna automaticamente.</i>)#");
     registerEntry("it_IT", TXT_KEY_WELCOME_CONTENT3, R"#(Sappiamo che non tutti usano kitty o dolphin. Per questo puoi scegliere.
 Se vuoi cambiare i default, usa i menu qui sotto.)#");
 
-    registerEntry("it_IT", TXT_KEY_WELCOME_CONTENT4, R"#(Ora che hai installato queste app, potresti volere che si avviassero da sole. Hyprland non avvia niente automaticamente, per questo devi dirgli tu di farlo.
+    registerEntry("it_IT", TXT_KEY_WELCOME_CONTENT4,
+                  R"#(Ora che hai installato queste app, potresti volere che si avviassero da sole. Hyprland non avvia niente automaticamente, per questo devi dirgli tu di farlo.
 Apri ~/.config/hypr/hyprland.lua e aggiungi "hl.exec_cmd("appname")" in un hl.on() per avviarle, ad esempio:
 hl.on("hyprland.start", function ()
     hl.exec_cmd("hyprpaper")
@@ -185,14 +190,14 @@ Un buon posto per iniziare è la wiki di Hyprland, https://wiki.hypr.land. Lì t
 
 Se preferisci configurazioni già fatte, o "dotfile", puoi vedere la sezione "Preconfigured setups" della wiki, o cercare in rete. <span foreground="#cc2222">Nota bene:</span> questi possono eseguire <i>qualsiasi cosa</i> sul tuo computer. Usa fonti fidate.)#");
 
-registerEntry("it_IT", TXT_KEY_WELCOME_CONTENT5, R"#(Hyprland ha un ampio ecosistema di app ad-hoc.
+    registerEntry("it_IT", TXT_KEY_WELCOME_CONTENT5, R"#(Hyprland ha un ampio ecosistema di app ad-hoc.
 Al contrario di altri DE popolari, non ti forza ad utilizzarle di default.
 
 Puoi installare queste componenti a parte (quelle che ti servono).
 
 Dai un'occhiata alla wiki sotto "Hypr Ecosystem" per vedere l'app, come usarle e configurarle.)#");
 
-registerEntry("it_IT", TXT_KEY_WELCOME_CONTENT6, R"#(È tutto per questa piccola introduzione! Esplora la wiki, le varie app e goditi il viaggio!
+    registerEntry("it_IT", TXT_KEY_WELCOME_CONTENT6, R"#(È tutto per questa piccola introduzione! Esplora la wiki, le varie app e goditi il viaggio!
 
 Eccoti alcune scorciatoie importanti:
 • SUPER + Q <span foreground="#666666">=</span> Terminale
@@ -251,6 +256,6 @@ std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::tr
     static auto CONFIG_LOCALE = CConfigValue<std::string>("general:locale");
     std::string locale        = *CONFIG_LOCALE != "" ? *CONFIG_LOCALE : localeStr;
     */
-   std::string locale = localeStr;
+    std::string locale = localeStr;
     return huEngine->localizeEntry(locale, key, vars);
 }

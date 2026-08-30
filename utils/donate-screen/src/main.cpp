@@ -60,7 +60,11 @@ int main(int argc, char** argv, char** envp) {
     layoutInner->setPositionMode(Hyprtoolkit::IElement::HT_POSITION_ABSOLUTE);
     layoutInner->setPositionFlag(Hyprtoolkit::IElement::HT_POSITION_FLAG_HCENTER, true);
 
-    auto title = CTextBuilder::begin()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_DONATE_TITLE))->fontSize({CFontSize::HT_FONT_H2})->color([] { return backend->getPalette()->m_colors.text; })->commence();
+    auto title = CTextBuilder::begin()
+                     ->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_DONATE_TITLE))
+                     ->fontSize({CFontSize::HT_FONT_H2})
+                     ->color([] { return backend->getPalette()->m_colors.text; })
+                     ->commence();
 
     auto hr = CRectangleBuilder::begin() //
                   ->color([] { return CHyprColor{backend->getPalette()->m_colors.text.darken(0.65)}; })

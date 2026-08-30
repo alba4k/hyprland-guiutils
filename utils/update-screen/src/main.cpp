@@ -30,7 +30,7 @@ using namespace Hyprtoolkit;
 static SP<IBackend>       backend;
 static SP<CButtonElement> donateButton, openNewsButton;
 
-int main(int argc, char** argv, char** envp) {
+int                       main(int argc, char** argv, char** envp) {
     std::string              versionStr = "";
     std::vector<std::string> buttonsStrs;
 
