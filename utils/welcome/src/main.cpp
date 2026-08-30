@@ -488,7 +488,7 @@ static void initTabs() {
         layout->addChild(appLayoutParent);
 
         // app states
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_AUTHAGENT), {"hyprpolkitagent", "polkit-kde-agent"}, true, "hyprpolkitagent");
+        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_AUTHAGENT), {"hyprpolkitagent", "polkit-kde-agent", "lxpolkit"}, true, "hyprpolkitagent");
         registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_FILES), {"dolphin", "ranger", "thunar", "pcmanfm", "nautilus", "nemo", "nnn", "yazi"}, true);
         registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_TERM), {"kitty", "alacritty", "wezterm", "foot", "konsole", "gnome-terminal"}, true, "kitty");
         registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_PIPEWIRE), {"pipewire", "wireplumber"}, true);

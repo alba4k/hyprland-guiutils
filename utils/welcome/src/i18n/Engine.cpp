@@ -104,7 +104,7 @@ Here are some important default shortcuts:
 Thank you for choosing Hyprland! ❤️)#");
 
     registerEntry("en_US", TXT_KEY_WELCOME_RUNNING, "{type}{star}: <span foreground=\"#22cccc\">Running</span>: {name}");
-    registerEntry("en_US", TXT_KEY_WELCOME_RUNNING, "{type}{star}: <span foreground=\"#22cc22\">Installed</span>: {name}");
+    registerEntry("en_US", TXT_KEY_WELCOME_INSTALLED, "{type}{star}: <span foreground=\"#22cc22\">Installed</span>: {name}");
     registerEntry("en_US", TXT_KEY_WELCOME_MISSING, "{type}{star}: <span foreground=\"#cc2222\">Missing</span>");
     registerEntry("en_US", TXT_KEY_WELCOME_ACCEPTED, "Accepted: {accepted}");
     registerEntry("en_US", TXT_KEY_WELCOME_RECOMMENDED, "Recommended: {recommended}\nAccepted: {accepted}");
@@ -210,7 +210,7 @@ Eccoti alcune scorciatoie importanti:
 Grazie per aver scelto Hyprland! ❤️)#");
 
     registerEntry("it_IT", TXT_KEY_WELCOME_RUNNING, "{type}{star}: <span foreground=\"#22cccc\">In esecuzione</span>: {name}");
-    registerEntry("it_IT", TXT_KEY_WELCOME_RUNNING, "{type}{star}: <span foreground=\"#22cc22\">Installato</span>: {name}");
+    registerEntry("it_IT", TXT_KEY_WELCOME_INSTALLED, "{type}{star}: <span foreground=\"#22cc22\">Installato</span>: {name}");
     registerEntry("it_IT", TXT_KEY_WELCOME_MISSING, "{type}{star}: <span foreground=\"#cc2222\">Mancante</span>");
     registerEntry("it_IT", TXT_KEY_WELCOME_ACCEPTED, "Accettati: {accepted}");
     registerEntry("it_IT", TXT_KEY_WELCOME_RECOMMENDED, "Consigliato: {recommended}\nAccettati: {accepted}");
