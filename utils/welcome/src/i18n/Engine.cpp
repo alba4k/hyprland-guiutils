@@ -2,7 +2,6 @@
 
 #include <hyprutils/i18n/I18nEngine.hpp>
 #include <hyprutils/memory/SharedPtr.hpp>
-// #include "../config/ConfigValue.hpp" // To read general:locale
 using namespace Hyprutils::Memory;
 
 using namespace I18n;
@@ -22,7 +21,7 @@ SP<I18n::CI18nEngine> I18n::i18nEngine() {
     huEngine->registerEntry(locale, key, translation);
 }
 
-/* only needed for plurals
+/* would needed for plurals
 [[gnu::noinline]] static void registerEntry(const char* locale, eI18nKeys key, const char* (*translationFunc)(const Hyprutils::I18n::translationVarMap&)) {
     huEngine->registerEntry(locale, key, translationFunc);
 }
@@ -252,10 +251,5 @@ Grazie per aver scelto Hyprland! ❤️)#");
 }
 
 std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::translationVarMap& vars) {
-    /*
-    static auto CONFIG_LOCALE = CConfigValue<std::string>("general:locale");
-    std::string locale        = *CONFIG_LOCALE != "" ? *CONFIG_LOCALE : localeStr;
-    */
-    std::string locale = localeStr;
-    return huEngine->localizeEntry(locale, key, vars);
+    return huEngine->localizeEntry(localeStr, key, vars);
 }
