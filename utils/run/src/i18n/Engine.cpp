@@ -58,6 +58,15 @@ I18n::CI18nEngine::CI18nEngine() {
     registerEntry("de_DE", TXT_KEY_RUN_INPUT, "Programmname eingeben...");
     registerEntry("de_DE", TXT_KEY_RUN_CANCEL, "Abbrechen");
     registerEntry("de_DE", TXT_KEY_RUN_RUN, "Ausführen");
+
+    // de_CH (Swiss German)
+    registerEntry("de_CH", TXT_KEY_RUN_TITLE, "Applikation uusfüehre");
+    registerEntry("de_CH", TXT_KEY_RUN_NOFOUND, "Uusfüehrbari Datei existiert ned");
+    registerEntry("de_CH", TXT_KEY_RUN_NORUN, "Prozäss hed ned chönne uusgfüehrt wärde");
+    registerEntry("de_CH", TXT_KEY_RUN_NOSTART, "Prozäss hed ned chönne gstartet wärde");
+    registerEntry("de_CH", TXT_KEY_RUN_INPUT, "Programmname iigä...");
+    registerEntry("de_CH", TXT_KEY_RUN_CANCEL, "Abbräche");
+    registerEntry("de_CH", TXT_KEY_RUN_RUN, "Uusfüehre");
 }
 
 std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::translationVarMap& vars) {

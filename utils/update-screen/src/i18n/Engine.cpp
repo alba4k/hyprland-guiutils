@@ -85,6 +85,24 @@ Falls du Plugins verwendest, vergiss nicht, sie neu zu kompilieren.
     registerEntry("de_DE", TXT_KEY_UPDATE_NEWS, "🔗 Neuigkeiten öffnen");
     registerEntry("de_DE", TXT_KEY_UPDATE_NEWSDONE, "🔗 Sofort!");
     registerEntry("de_DE", TXT_KEY_UPDATE_THANKS, "Danke");
+
+    // de_CH (Swiss German)
+    registerEntry("de_CH", TXT_KEY_UPDATE_TITLE, "Hyprland aktualisiert");
+    registerEntry("de_CH", TXT_KEY_UPDATE_TITLEVER, "Hyprland zo {version} aktualisiert!");
+    registerEntry("de_CH", TXT_KEY_UPDATE_CONTENT, R"#(Hyprland esch aktualisiert worde! 😄
+
+Lueg d Versionshiwiis uf GitHub ond d Neuigkeite uf hypr.land aa, om z erfahre was neu esch.
+
+Gwössnigi Versione beinhalted inkompatibli Änderige, wenn du also Konfigurationsfähler bechonsch, denn send die neuste Versionshiwiis en guete Startponkt.
+
+Falls du Plugins bruuchsch, vergess ned sie neu z kompiliere.
+
+<i>Du chasch die Aasecht i dinere Hyprland-Konfiguration deaktiviere.</i>)#");
+    registerEntry("de_CH", TXT_KEY_UPDATE_SUPPORT, "💝 Onderstötze");
+    registerEntry("de_CH", TXT_KEY_UPDATE_THANKYOU, "💝 Danke der!");
+    registerEntry("de_CH", TXT_KEY_UPDATE_NEWS, "🔗 Neuigkeite öffne");
+    registerEntry("de_CH", TXT_KEY_UPDATE_NEWSDONE, "🔗 Sofort!");
+    registerEntry("de_CH", TXT_KEY_UPDATE_THANKS, "Danke");
 }
 
 std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::translationVarMap& vars) {

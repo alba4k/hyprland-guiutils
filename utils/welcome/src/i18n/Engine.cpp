@@ -358,6 +358,116 @@ Danke, dass du dich für Hyprland entschieden hast! ❤️)#");
     registerEntry("de_DE", TXT_KEY_WELCOME_FINISH, "Fertig");
     registerEntry("de_DE", TXT_KEY_WELCOME_WIKI, "🔗 Wiki öffnen");
     registerEntry("de_DE", TXT_KEY_WELCOME_OPENED, "🔗 In deinem Browser geöffnet");
+
+    // de_CH (Swiss German)
+    registerEntry("de_CH", TXT_KEY_WELCOME_TITLE, "Wellkomme bi Hyprland!");
+    registerEntry("de_CH", TXT_KEY_WELCOME_GETSTART, "Los loh");
+    registerEntry("de_CH", TXT_KEY_WELCOME_APPS, "Standardaawändige");
+    registerEntry("de_CH", TXT_KEY_WELCOME_CONFIG, "Eifachi Konfiguration");
+    registerEntry("de_CH", TXT_KEY_WELCOME_ECOSYSTEM, "Hypr Ökosystem");
+    registerEntry("de_CH", TXT_KEY_WELCOME_THATSIT, "Das wärs!");
+
+    registerEntry("de_CH", TXT_KEY_WELCOME_CONTENT1,
+                    R"#(Mer hoffed du gniessisch din Ufenthalt. Om der z hälfe, eifacher Hyprland könne z lehre, hend mer extra för dech es chliises Iistegstutorial vorbereitet.
+
+Falls du dech abentürlech fühlsch, oder bereits en fortgschrettne Benotzer besch, chasch du "Danke, aber ech bruuch kei Helf" unde klicke. Das werd das Fänster schliesse onds nie meh aazeige.
+
+Falls du manuell die Wellkommensapp öffne wottsch, chasch du eifach hyprland-welcome i dinere Konsole uusfüehre.
+
+Klick uf "Wiiter" om zom nöchste Schrett i dinere Iirechtig fortzfahre :)
+)#");
+
+    registerEntry("de_CH", TXT_KEY_WELCOME_CONTENT2,
+                    R"#(Zerst mömmer paar Päckli installiere, wo du ombedingt bruuchsch dass dis System rechtig funktioniert.
+Apps meteme <span foreground="#cc2222">*</span> send <span foreground="red"><i>ombedingt notwändig</i></span> för es funktionierends System. Alli andere send <span foreground="red"><i>drengend</i></span> empfohle, well sie grondlegendi Bestandteil vomene funktionierende System send.
+Du chasch au ohni sie wiiter go, aber devo werd abgrote.
+
+Es esch möglech, dass die App gwössnigi vo dine installierte Binaries ned erkönnt. I demm Fall esch es okay, die z ignoriere.
+
+Benotz de <i>Terminal öffne</i> Chnopf, om es Terminal z öffne.
+Benotz SUPER+M om Hyprland z verloh.
+Onderstötzti Terminals: kitty, alacritty, foot, wezterm, konsole, gnome-terminal, xterm.
+
+<i>Tipp: Fahr met de Muus öber die verschedene Komponänte, om z gseh weli Optione akzeptiert wärded. <span foreground="#22cc22">Grüen</span> bedüütet dass die Komponänte als installiert erkennt worde esch, <span foreground="#22cccc">blau</span> heisst es lauft scho.
+Die Lischte aktualisiert automatisch.</i>)#");
+
+    registerEntry("de_CH", TXT_KEY_WELCOME_CONTENT3, R"#(Mer wössed dass ned jede Kitty ond Dolphin bruucht. Wäge demm lömmer dech lo wähle.
+Wenn du d Standardiistellige ändere wettsch, denn notz die folgende Dropdowns.)#");
+
+    registerEntry(
+        "de_CH", TXT_KEY_WELCOME_CONTENT4,
+        R"#(Do du jetzt die grondlegende Apps installiert hesch, wettsch vellecht es paar vo ene automatisch starte. Hyprland started nüd automatisch för dech, das muesch du sälber fest legge.
+Goh zu ~/.config/hypr/hyprland.lua ond füeg "hl.exec_cmd("appname")" omgäbe vo "hl.on()" ii, om dini Apps z starte, zom Bispel:
+hl.on("hyprland.start", function ()
+    hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("waybar")
+end)
+
+Generell, Apps konfiguriere esch öppis wo du sälber muesch mache. Jedi App wo du installiersch chan en eigeti Konfigurationsdatei ond eigeti Optione ha.
+
+En guete Startponkt esch s Hyprland-Wiki uf https://wiki.hypr.land. Det werd s "Master tutorial" der alles biibrenge ond zo wiitere Dokumentation linke.
+
+Falls du vorgfertigti Iistellige oder "dotfiles" bevorzugsch, chasch du der d "Preconfigured setups" Siite uf em Wiki aaluege, oder online sueche. <span foreground="#cc2222">Wechtige Hiwiis:</span> dotfiles chönd <i>alles</i> uf dim Computer uusfüehre. Stell secher dass du de Quelle vertrousch.)#");
+
+    registerEntry("de_CH", TXT_KEY_WELCOME_CONTENT5, R"#(Hyprland hed es breits Ökosystem vo Apps wo spezifisch deför gmacht worde send.
+Ned wie anderi DEs zwengt s dech aber ned, die meiste devo standardmässig z bruuche.
+
+Du chasch die Element separat installiere, ond nor die wo du au bruuchsch.
+
+Lueg im Wiki onder "Hypr Ecosystem" om alli Apps ond ehri Notzig ond Konfiguration z gseh.)#");
+
+    registerEntry("de_CH", TXT_KEY_WELCOME_CONTENT6, R"#(Das wärs för die chlii Iifüehrig! Erkond s Wiki, veli verschedni Apps ond gniess dini Reis!
+
+Do send paar wechtige Standard-Tastekombinatione:
+• SUPER + Q <span foreground="#666666">=</span> Terminal
+• SUPER + E <span foreground="#666666">=</span> Dateimanager
+• SUPER + R <span foreground="#666666">=</span> Launcher
+• SUPER + C <span foreground="#666666">=</span> Fänster schliesse
+• SUPER + V <span foreground="#666666">=</span> Floating omschalte
+• SUPER + M <span foreground="#666666">=</span> Hyprland verloh
+• SUPER + [1 - 9] <span foreground="#666666">=</span> Workspace 1 - 9
+• SUPER + SHIFT + [1 - 9] <span foreground="#666666">=</span> Fänster zu Workspace 1 - 9 verschiebe
+• SUPER + [ ← ↑ ↓ → ] <span foreground="#666666">=</span> Fokus verschiebe
+
+<i>Du chasch die eifach in hyprland.lua verändere.</i>
+
+Danke dass du dech för Hyprland entschede hesch! ❤️)#");
+
+    registerEntry("de_CH", TXT_KEY_WELCOME_RUNNING, "{type}{star}: <span foreground=\"#22cccc\">Lauft</span>: {name}");
+    registerEntry("de_CH", TXT_KEY_WELCOME_INSTALLED, "{type}{star}: <span foreground=\"#22cc22\">Installiert</span>: {name}");
+    registerEntry("de_CH", TXT_KEY_WELCOME_MISSING, "{type}{star}: <span foreground=\"#cc2222\">Fählt</span>");
+    registerEntry("de_CH", TXT_KEY_WELCOME_ACCEPTED, "Akzeptiert: {accepted}");
+    registerEntry("de_CH", TXT_KEY_WELCOME_RECOMMENDED, "Empfohle: {recommended}\nAkzeptiert: {accepted}");
+    registerEntry("de_CH", TXT_KEY_WELCOME_ERROR1, "Spichere fählgschlage: weder $XDG_CONFIG_HOME no $HOME esch gsetzt");
+    registerEntry("de_CH", TXT_KEY_WELCOME_ERROR2, "Spichere fählgschlage: d Lua-Konfiguration hed ned chönne gläse wärde");
+    registerEntry("de_CH", TXT_KEY_WELCOME_ERROR3, "Spichere fählgschlage: Konfiguration esch ned Standard, sie hed kei Lua-Standardvariable");
+    registerEntry("de_CH", TXT_KEY_WELCOME_ERROR4, "Spichere fählgschlage: d Lua-Konfiguration hed ned chönne göffnet wärde");
+    registerEntry("de_CH", TXT_KEY_WELCOME_ERROR5, "Spichere fählgschlage: d Lua-Konfiguration hed ned chönne gschrebe wärde");
+    registerEntry("de_CH", TXT_KEY_WELCOME_AUTHAGENT, "Authentifizierigsagent");
+    registerEntry("de_CH", TXT_KEY_WELCOME_FILES, "Dateimanager");
+    registerEntry("de_CH", TXT_KEY_WELCOME_TERM, "Terminal");
+    registerEntry("de_CH", TXT_KEY_WELCOME_PIPEWIRE, "Pipewire");
+    registerEntry("de_CH", TXT_KEY_WELCOME_WALLPAPER, "Hendergrondbeld");
+    registerEntry("de_CH", TXT_KEY_WELCOME_PORTAL, "XDG Desktop Portal");
+    registerEntry("de_CH", TXT_KEY_WELCOME_NOTIF, "Benochrechtigungsdienst");
+    registerEntry("de_CH", TXT_KEY_WELCOME_NOTIFNOTE, "Bitte beacht, dass dini Shell (z.B. quickshell) au en eigete Benochrechtigungsdienst cha beinhalte.");
+    registerEntry("de_CH", TXT_KEY_WELCOME_SHELL, "Status bar / shell");
+    registerEntry("de_CH", TXT_KEY_WELCOME_SHELLNOTE, "För neui Notzer empfähled mer Waybar, för fortgschrettni Quickshell.");
+    registerEntry("de_CH", TXT_KEY_WELCOME_LAUNCHER, "App Launcher");
+    registerEntry("de_CH", TXT_KEY_WELCOME_CLIPBOARD, "Zwöscheablag");
+    registerEntry("de_CH", TXT_KEY_WELCOME_CLIPBOARDNOTE, "wl-copy werd bi de meiste Distributione vo wl-clipboard zor Verfüegig gstellt.");
+    registerEntry("de_CH", TXT_KEY_WELCOME_ERROR6, "<span foreground=\"#cc2222\">⚠ Fähler: {error}</span>");
+    registerEntry("de_CH", TXT_KEY_WELCOME_APPINST, "<span foreground=\"#22cc22\">✓ {name} esch installiert</span>");
+    registerEntry("de_CH", TXT_KEY_WELCOME_APPNOINST, "<span foreground=\"#cc2222\">⚠ {name} esch ned installiert</span>");
+    registerEntry("de_CH", TXT_KEY_WELCOME_CHANGELATER, "<i>Du chasch die spöter emmer in hyprland.lua aapasse.</i>");
+
+    registerEntry("de_CH", TXT_KEY_WELCOME_THANKS, "Danke, aber ech bruuch kei Helf");
+    registerEntry("de_CH", TXT_KEY_WELCOME_BACK, "Zrogg");
+    registerEntry("de_CH", TXT_KEY_WELCOME_NEXT, "Wiiter");
+    registerEntry("de_CH", TXT_KEY_WELCOME_OPENTERM, "Terminal öffne");
+    registerEntry("de_CH", TXT_KEY_WELCOME_FINISH, "Fertig");
+    registerEntry("de_CH", TXT_KEY_WELCOME_WIKI, "🔗 Wiki öffne");
+    registerEntry("de_CH", TXT_KEY_WELCOME_OPENED, "🔗 I dim Browser göffnet");
 }
 
 std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::translationVarMap& vars) {
