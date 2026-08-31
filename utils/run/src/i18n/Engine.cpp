@@ -49,6 +49,15 @@ I18n::CI18nEngine::CI18nEngine() {
     registerEntry("it_IT", TXT_KEY_RUN_INPUT, "Inserisci il nome dell'appp...");
     registerEntry("it_IT", TXT_KEY_RUN_CANCEL, "Annulla");
     registerEntry("it_IT", TXT_KEY_RUN_RUN, "Esegui");
+
+    // de_DE (German)
+    registerEntry("de_DE", TXT_KEY_RUN_TITLE, "Applikation ausführen");
+    registerEntry("de_DE", TXT_KEY_RUN_NOFOUND, "Ausführbare Datei existiert nicht");
+    registerEntry("de_DE", TXT_KEY_RUN_NORUN, "Prozess konnte nicht ausgeführt werden");
+    registerEntry("de_DE", TXT_KEY_RUN_NOSTART, "Prozess konnte nicht gestartet werden");
+    registerEntry("de_DE", TXT_KEY_RUN_INPUT, "Programmname eingeben...");
+    registerEntry("de_DE", TXT_KEY_RUN_CANCEL, "Abbrechen");
+    registerEntry("de_DE", TXT_KEY_RUN_RUN, "Ausführen");
 }
 
 std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::translationVarMap& vars) {

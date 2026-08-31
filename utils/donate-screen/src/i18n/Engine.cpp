@@ -59,6 +59,20 @@ Inoltre per 5€ + tasse / mese c'è Hyprperks, Che include un po' di regali com
     registerEntry("it_IT", TXT_KEY_DONATE_SUPPORT, "💝 Supportaci");
     registerEntry("it_IT", TXT_KEY_DONATE_THANKYOU, "💝 Grazie!");
     registerEntry("it_IT", TXT_KEY_DONATE_NOTHANKS, "No grazie");
+
+    // de_DE (German)
+    registerEntry("de_DE", TXT_KEY_DONATE_TITLE, "Hyprland unterstützen");
+    registerEntry("de_DE", TXT_KEY_DONATE_CONTENT, R"#(Hyprland wird von Freiwilligen entwickelt und unterhalten, mit einer Person, die Vollzeit daran arbeitet.
+
+Falls Hyprland für dich nützlich ist, hilft deine Unterstützung dabei, das Projekt nachhaltig weiterzuführen und zu verbessern.
+
+Du kannst einmalig spenden oder uns monatlich unterstützen.
+Es gibt auch Hyprperks für 5€ + Steuern / Monat, was zusätzlich noch ein paar Extras von uns als Dankeschön beinhaltet.
+
+)#");
+    registerEntry("de_DE", TXT_KEY_DONATE_SUPPORT, "💝 Unterstützen");
+    registerEntry("de_DE", TXT_KEY_DONATE_THANKYOU, "💝 Danke dir!");
+    registerEntry("de_DE", TXT_KEY_DONATE_NOTHANKS, "Nein danke");
 }
 
 std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::translationVarMap& vars) {
