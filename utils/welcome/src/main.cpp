@@ -460,8 +460,10 @@ static void initTabs() {
         // Tab 2
         auto nullEl = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
         auto layout = CColumnLayoutBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->gap(20)->commence();
-        auto text =
-            CTextBuilder::begin()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONTENT2))->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
+        auto text   = CTextBuilder::begin()
+                          ->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONTENT2, {{"terms", "kitty, alacritty, foot, wezterm, konsole, gnome-terminal, xterm"}}))
+                          ->color([] { return state.backend->getPalette()->m_colors.text; })
+                          ->commence();
         auto spacer = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_ABSOLUTE, CDynamicSize::HT_SIZE_ABSOLUTE, {1, 1}})->commence();
         spacer->setGrow(true);
 

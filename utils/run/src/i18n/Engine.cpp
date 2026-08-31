@@ -21,7 +21,7 @@ SP<I18n::CI18nEngine> I18n::i18nEngine() {
     huEngine->registerEntry(locale, key, translation);
 }
 
-/* would needed for plurals
+/* would be needed for plurals
 [[gnu::noinline]] static void registerEntry(const char* locale, eI18nKeys key, const char* (*translationFunc)(const Hyprutils::I18n::translationVarMap&)) {
     huEngine->registerEntry(locale, key, translationFunc);
 }
@@ -31,6 +31,24 @@ I18n::CI18nEngine::CI18nEngine() {
     huEngine = makeShared<Hyprutils::I18n::CI18nEngine>();
     huEngine->setFallbackLocale("en_US");
     localeStr = huEngine->getSystemLocale().locale();
+
+    // de_CH (Swiss German)
+    registerEntry("de_CH", TXT_KEY_RUN_TITLE, "Applikation uusfüehre");
+    registerEntry("de_CH", TXT_KEY_RUN_NOFOUND, "Uusfüehrbari Datei existiert ned");
+    registerEntry("de_CH", TXT_KEY_RUN_NORUN, "Prozäss hed ned chönne uusgfüehrt wärde");
+    registerEntry("de_CH", TXT_KEY_RUN_NOSTART, "Prozäss hed ned chönne gstartet wärde");
+    registerEntry("de_CH", TXT_KEY_RUN_INPUT, "Programmname iigä...");
+    registerEntry("de_CH", TXT_KEY_RUN_CANCEL, "Abbräche");
+    registerEntry("de_CH", TXT_KEY_RUN_RUN, "Uusfüehre");
+
+    // de_DE (German)
+    registerEntry("de_DE", TXT_KEY_RUN_TITLE, "Applikation ausführen");
+    registerEntry("de_DE", TXT_KEY_RUN_NOFOUND, "Ausführbare Datei existiert nicht");
+    registerEntry("de_DE", TXT_KEY_RUN_NORUN, "Prozess konnte nicht ausgeführt werden");
+    registerEntry("de_DE", TXT_KEY_RUN_NOSTART, "Prozess konnte nicht gestartet werden");
+    registerEntry("de_DE", TXT_KEY_RUN_INPUT, "Programmname eingeben...");
+    registerEntry("de_DE", TXT_KEY_RUN_CANCEL, "Abbrechen");
+    registerEntry("de_DE", TXT_KEY_RUN_RUN, "Ausführen");
 
     // en_US (English)
     registerEntry("en_US", TXT_KEY_RUN_TITLE, "Run an appplication");
@@ -49,24 +67,6 @@ I18n::CI18nEngine::CI18nEngine() {
     registerEntry("it_IT", TXT_KEY_RUN_INPUT, "Inserisci il nome dell'appp...");
     registerEntry("it_IT", TXT_KEY_RUN_CANCEL, "Annulla");
     registerEntry("it_IT", TXT_KEY_RUN_RUN, "Esegui");
-
-    // de_DE (German)
-    registerEntry("de_DE", TXT_KEY_RUN_TITLE, "Applikation ausführen");
-    registerEntry("de_DE", TXT_KEY_RUN_NOFOUND, "Ausführbare Datei existiert nicht");
-    registerEntry("de_DE", TXT_KEY_RUN_NORUN, "Prozess konnte nicht ausgeführt werden");
-    registerEntry("de_DE", TXT_KEY_RUN_NOSTART, "Prozess konnte nicht gestartet werden");
-    registerEntry("de_DE", TXT_KEY_RUN_INPUT, "Programmname eingeben...");
-    registerEntry("de_DE", TXT_KEY_RUN_CANCEL, "Abbrechen");
-    registerEntry("de_DE", TXT_KEY_RUN_RUN, "Ausführen");
-
-    // de_CH (Swiss German)
-    registerEntry("de_CH", TXT_KEY_RUN_TITLE, "Applikation uusfüehre");
-    registerEntry("de_CH", TXT_KEY_RUN_NOFOUND, "Uusfüehrbari Datei existiert ned");
-    registerEntry("de_CH", TXT_KEY_RUN_NORUN, "Prozäss hed ned chönne uusgfüehrt wärde");
-    registerEntry("de_CH", TXT_KEY_RUN_NOSTART, "Prozäss hed ned chönne gstartet wärde");
-    registerEntry("de_CH", TXT_KEY_RUN_INPUT, "Programmname iigä...");
-    registerEntry("de_CH", TXT_KEY_RUN_CANCEL, "Abbräche");
-    registerEntry("de_CH", TXT_KEY_RUN_RUN, "Uusfüehre");
 }
 
 std::string I18n::CI18nEngine::localize(eI18nKeys key, const Hyprutils::I18n::translationVarMap& vars) {
