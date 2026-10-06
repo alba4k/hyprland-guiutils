@@ -14,7 +14,6 @@
 #include <hyprutils/string/VarList.hpp>
 #include <hyprutils/string/String.hpp>
 #include <hyprutils/os/Process.hpp>
-#include "i18n/Engine.hpp"
 
 #include <print>
 #include <ranges>
@@ -35,13 +34,11 @@ using namespace std::string_literals;
 #define WP  CWeakPointer
 #define UP  CUniquePointer
 
-constexpr const size_t               TABS_NUMBER       = 6;
-constexpr const size_t               INNER_NULL_MARGIN = 5;
+constexpr const size_t                         TABS_NUMBER       = 6;
+constexpr const size_t                         INNER_NULL_MARGIN = 5;
 
-std::array<std::string, TABS_NUMBER> TITLES = {
-    I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_TITLE),     I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_GETSTART),
-    I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_APPS),      I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONFIG),
-    I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_ECOSYSTEM), I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_THATSIT),
+constexpr std::array<const char*, TABS_NUMBER> TITLES = {
+    "Welcome to Hyprland!", "Getting started", "Default apps", "Basic configuration", "Hypr Ecosystem", "That's it!",
 };
 
 const std::vector<const char*> TERMINALS = {
@@ -51,6 +48,74 @@ const std::vector<const char*> TERMINALS = {
 const std::vector<const char*> FILE_MANAGERS = {"dolphin", "thunar", "pcmanfm", "nautilus", "nemo"};
 
 const std::vector<const char*> LAUNCHERS = {"hyprlauncher", "fuzzel", "wofi", "rofi -show run", "anyrun", "tofi-drun --drun-launch=true"};
+
+constexpr const char*          TAB1_CONTENT =
+    R"#(We hope you enjoy your stay. In order to help you get accommodated to Hyprland in an easier manner, we prepared a little basic setup tutorial, just for you.
+
+If you feel adventurous, or are an advanced user, you can click the "Thanks, but I don't need help" button on the bottom. It will close this window and never show it again.
+
+If you want to manually launch this welcome app, just execute hyprland-welcome in your terminal.
+
+Click the "next" button to proceed to the next step of your setup :)
+)#";
+
+constexpr const char* TAB2_CONTENT =
+    R"#(The first thing we'll need to do is get some packages installed that you absolutely need in order for your system to be working properly.
+Apps with a <span foreground="#cc2222">*</span> are <span foreground="red"><i>absolutely necessary</i></span> for a working system. All other are <span foreground="red"><i>highly</i></span> recommended, as they provide core parts of a working environment.
+You can proceed without any of those, but it's not advised.
+
+There is a possibility that this app is unable to detect some of your installed binaries. In that case, it's okay to ignore them.
+
+Use the <i>launch terminal</i> button to launch a terminal.
+Use SUPER+M to exit hyprland.
+Supported terminals: kitty, alacritty, foot, wezterm, konsole, gnome-terminal, xterm.
+
+<i>Hint: Hover on the different components to see what options are accepted. <span foreground="#22cc22">Green</span> means the component is found to be installed, <span foreground="#22cccc">blue</span> means it's running.
+This list refreshes automatically.</i>)#";
+
+constexpr const char* TAB4_CONTENT =
+    R"#(Now that you've installed the basic apps, you might want some of them to autostart. Hyprland doesn't automatically start anything for you, you need to tell it to.
+Go to ~/.config/hypr/hyprland.lua, and add "hl.exec_cmd("appname")" surrounded by hl.on() to launch your apps, for example:
+hl.on("hyprland.start", function ()
+    hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("waybar")
+end)
+
+In general, configuring apps is something for you to do. Each app you install may come with its own config file and options.
+
+A great point to start is the Hyprland wiki at https://wiki.hypr.land. There, the master tutorial will teach you everything and link to further docs.
+
+If you prefer pre-configured settings, or "dotfiles", you can see the "preconfigured configs" section on the wiki, or search online. <span foreground="#cc2222">Important note:</span> dotfiles can run <i>anything</i> on your computer. Make sure you trust the source.)#";
+
+constexpr const char* TAB3_PREAMBLE =
+    R"#(We know that not everyone uses kitty and dolphin. That's why we let you choose.
+If you wish to change the defaults, use the dropdowns below.)#";
+
+constexpr const char* TAB5_CONTENT =
+    R"#(Hyprland has a wide ecosystem of apps specifically made for it.
+Unlike some other popular DEs, it does not force you to use most of them by default.
+
+You can install those elements separately, only those that you need.
+
+Check the wiki under Hypr Ecosystem to see all of the apps, their usage and configuration.)#";
+
+constexpr const char* TAB6_CONTENT =
+    R"#(That's it for this small introduction! Explore the wiki, and various apps, and enjoy your journey!
+
+Here are some important default shortcuts:
+• SUPER + Q <span foreground="#666666">=</span> Terminal
+• SUPER + E <span foreground="#666666">=</span> File Manager
+• SUPER + R <span foreground="#666666">=</span> Launcher
+• SUPER + C <span foreground="#666666">=</span> Close window
+• SUPER + V <span foreground="#666666">=</span> Toggle floating
+• SUPER + M <span foreground="#666666">=</span> Exit Hyprland
+• SUPER + [1 - 9] <span foreground="#666666">=</span> Workspaces 1 - 9
+• SUPER + SHIFT + [1 - 9] <span foreground="#666666">=</span> Move window to workspace 1 - 9
+• SUPER + Arrows <span foreground="#666666">=</span> Move focus around
+
+<i>You can easily change these in your hyprland.lua.</i>
+    
+Thank you for choosing Hyprland! ❤️)#";
 
 struct SAppState {
     std::string              name;
@@ -134,8 +199,7 @@ static void updateApps() {
             found = true;
 
             a->labelEl->rebuild()
-                ->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_RUNNING,
-                                                    {{"type", a->name}, {"star", (a->mandatory ? "<span foreground=\"#cc2222\">*</span>" : "")}, {"name", bn}}))
+                ->text(std::format("{}{}: <span foreground=\"#22cccc\">Running: </span>{}", a->name, (a->mandatory ? "<span foreground=\"#cc2222\">*</span>" : ""), bn))
                 ->commence();
             break;
         }
@@ -147,8 +211,7 @@ static void updateApps() {
                 found = true;
 
                 a->labelEl->rebuild()
-                    ->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_INSTALLED,
-                                                        {{"type", a->name}, {"star", (a->mandatory ? "<span foreground=\"#cc2222\">*</span>" : "")}, {"name", bn}}))
+                    ->text(std::format("{}{}: <span foreground=\"#22cc22\">Installed: </span>{}", a->name, (a->mandatory ? "<span foreground=\"#cc2222\">*</span>" : ""), bn))
                     ->commence();
                 break;
             }
@@ -156,7 +219,7 @@ static void updateApps() {
 
         if (!found)
             a->labelEl->rebuild()
-                ->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_MISSING, {{"type", a->name}, {"star", (a->mandatory ? "<span foreground=\"#cc2222\">*</span>" : "")}}))
+                ->text(std::format("{}{}: <span foreground=\"#cc2222\">Missing</span>", a->name, (a->mandatory ? "<span foreground=\"#cc2222\">*</span>" : "")))
                 ->commence();
     }
 }
@@ -164,7 +227,7 @@ static void updateApps() {
 static void updateTab() {
     state.tabContainer->clearChildren();
     state.tabContainer->addChild(state.tabs[state.tab]);
-    state.topText->rebuild()->text(std::string(TITLES[state.tab]))->commence();
+    state.topText->rebuild()->text(TITLES[state.tab])->commence();
     updateApps();
 
     state.buttonLayout->clearChildren();
@@ -230,10 +293,9 @@ static void registerAppState(std::string&& name, std::vector<std::string>&& bina
     if (!acceptedStr.empty())
         acceptedStr = acceptedStr.substr(0, acceptedStr.length() - 2);
 
-    std::string tooltip = recommend.empty() ? I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_ACCEPTED, {{"accepted", acceptedStr}}) :
-                                              I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_RECOMMENDED, {{"recommended", recommend}, {"accepted", acceptedStr}});
+    std::string tooltip = recommend.empty() ? std::format("Accepted: {}", acceptedStr) : std::format("Recommended: {}\nAccepted: {}", recommend, acceptedStr);
     if (!note.empty())
-        tooltip += "\n" + note;
+        tooltip += std::format("\n{}", note);
 
     appState->labelEl->setTooltip(std::move(tooltip));
 
@@ -305,7 +367,7 @@ static std::optional<std::pair<size_t, size_t>> findLuaLocalLine(const std::stri
 
         const std::string_view line{config.data() + lineStart, lineEnd - lineStart};
 
-        size_t                 pos = 0;
+        size_t pos = 0;
         while (pos < line.length() && isLuaWhitespace(line[pos])) {
             pos++;
         }
@@ -350,8 +412,8 @@ static std::string luaLocalLineReplacement(const std::string& config, const std:
 }
 
 static bool isLuaAutogeneratedLine(const std::string_view& line) {
-    const auto  COMMENT_POS = line.find("--");
-    const auto  CODE        = line.substr(0, COMMENT_POS);
+    const auto COMMENT_POS = line.find("--");
+    const auto CODE        = line.substr(0, COMMENT_POS);
 
     std::string compact;
     compact.reserve(CODE.length());
@@ -387,30 +449,30 @@ static std::optional<std::pair<size_t, size_t>> findLuaAutogeneratedLine(const s
 static std::optional<std::string> updateDefaultConfigVar(const std::string_view& var, const char* newValue) {
     const auto PATH = getHyprlandLuaConfigPath();
     if (!PATH)
-        return I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_ERROR1);
+        return "Can't save: neither $XDG_CONFIG_HOME nor $HOME env is set";
 
     const auto STR = readFileAsString(PATH->string());
 
     if (!STR)
-        return I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_ERROR2);
+        return "Can't save: failed to read Lua config";
 
     std::string newConfig = *STR;
 
-    const auto  VAR_LINE = findLuaLocalLine(newConfig, var);
+    const auto VAR_LINE = findLuaLocalLine(newConfig, var);
     if (!VAR_LINE)
-        return I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_ERROR3);
+        return "Can't save: config isn't default, doesn't have Lua default variable";
 
     newConfig.replace(VAR_LINE->first, VAR_LINE->second - VAR_LINE->first, luaLocalLineReplacement(newConfig, *VAR_LINE, var, newValue));
 
     std::ofstream ofs(*PATH, std::ios::trunc);
     if (!ofs.good())
-        return I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_ERROR4);
+        return "Can't save: failed to open Lua config";
 
     ofs << newConfig;
     ofs.close();
 
     if (ofs.fail())
-        return I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_ERROR5);
+        return "Can't save: failed to write Lua config";
 
     return std::nullopt;
 }
@@ -427,7 +489,7 @@ static void removeAutogen() {
 
     std::string newConfig = *STR;
 
-    const auto  AUTOGEN_LINE = findLuaAutogeneratedLine(newConfig);
+    const auto AUTOGEN_LINE = findLuaAutogeneratedLine(newConfig);
     if (!AUTOGEN_LINE)
         return;
 
@@ -443,8 +505,7 @@ static void initTabs() {
         // Tab 1
         auto nullEl = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
         auto layout = CColumnLayoutBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
-        auto text =
-            CTextBuilder::begin()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONTENT1))->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
+        auto text   = CTextBuilder::begin()->text(TAB1_CONTENT)->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
         auto spacer = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_ABSOLUTE, CDynamicSize::HT_SIZE_ABSOLUTE, {1, 1}})->commence();
         spacer->setGrow(true);
 
@@ -460,10 +521,7 @@ static void initTabs() {
         // Tab 2
         auto nullEl = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
         auto layout = CColumnLayoutBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->gap(20)->commence();
-        auto text   = CTextBuilder::begin()
-                          ->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONTENT2, {{"terms", "kitty, alacritty, foot, wezterm, konsole, gnome-terminal, xterm"}}))
-                          ->color([] { return state.backend->getPalette()->m_colors.text; })
-                          ->commence();
+        auto text   = CTextBuilder::begin()->text(TAB2_CONTENT)->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
         auto spacer = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_ABSOLUTE, CDynamicSize::HT_SIZE_ABSOLUTE, {1, 1}})->commence();
         spacer->setGrow(true);
 
@@ -492,19 +550,16 @@ static void initTabs() {
         layout->addChild(appLayoutParent);
 
         // app states
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_AUTHAGENT), {"hyprpolkitagent", "polkit-kde-agent", "lxpolkit"}, true, "hyprpolkitagent");
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_FILES), {"dolphin", "ranger", "thunar", "pcmanfm", "nautilus", "nemo", "nnn", "yazi"}, true);
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_TERM), {"kitty", "alacritty", "wezterm", "foot", "konsole", "gnome-terminal"}, true, "kitty");
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_PIPEWIRE), {"pipewire", "wireplumber"}, true);
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_WALLPAPER), {"hyprpaper", "swww", "awww", "swaybg", "wpaperd"}, false, "hyprpaper");
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_PORTAL), {"xdg-desktop-portal-hyprland"}, true);
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_NOTIF), {"dunst", "mako", "swaync"}, true, "",
-                         I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_NOTIFNOTE));
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_SHELL), {"quickshell", "waybar", "eww", "ags"}, false, "",
-                         I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_SHELLNOTE));
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_LAUNCHER), {"hyprlauncher", "fuzzel", "wofi", "rofi", "anyrun", "vicinae-server", "walker", "tofi"},
-                         false, "hyprlauncher");
-        registerAppState(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CLIPBOARD), {"wl-copy"}, true, "", I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CLIPBOARDNOTE));
+        registerAppState("Authentication agent", {"hyprpolkitagent", "polkit-kde-agent"}, true, "hyprpolkitagent");
+        registerAppState("File manager", {"dolphin", "ranger", "thunar", "pcmanfm", "nautilus", "nemo", "nnn", "yazi"}, true);
+        registerAppState("Terminal", {"kitty", "alacritty", "wezterm", "foot", "konsole", "gnome-terminal"}, true, "kitty");
+        registerAppState("Pipewire", {"pipewire", "wireplumber"}, true);
+        registerAppState("Wallpaper", {"hyprpaper", "swww", "awww", "swaybg", "wpaperd"}, false, "hyprpaper");
+        registerAppState("XDG Desktop Portal", {"xdg-desktop-portal-hyprland"}, true);
+        registerAppState("Notification Daemon", {"dunst", "mako"}, true, "", "Please note you can have custom notification daemons with your shell, e.g. quickshell.");
+        registerAppState("Status bar / shell", {"quickshell", "waybar", "eww", "ags"}, false, "", "For new users we recommend waybar, for advanced users quickshell.");
+        registerAppState("Application launcher", {"hyprlauncher", "fuzzel", "wofi", "rofi", "anyrun", "walker", "tofi"}, false, "hyprlauncher");
+        registerAppState("Clipboard", {"wl-copy"}, true, "", "wl-copy is provided by wl-clipboard in most distros.");
 
         // register them
         bool flip = false;
@@ -520,8 +575,7 @@ static void initTabs() {
         // Tab 3
         auto nullEl = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
         auto layout = CColumnLayoutBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->gap(4)->commence();
-        auto text =
-            CTextBuilder::begin()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONTENT3))->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
+        auto text   = CTextBuilder::begin()->text(TAB3_PREAMBLE)->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
         auto spacer = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_ABSOLUTE, CDynamicSize::HT_SIZE_ABSOLUTE, {1, 1}})->commence();
         auto hr     = CRectangleBuilder::begin()
                           ->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_ABSOLUTE, {0.5F, 11.F}})
@@ -556,16 +610,16 @@ static void initTabs() {
 
             auto updateText = [](SP<CTextElement> textEl, const std::string_view& app, std::string err = "") -> void {
                 if (!err.empty()) {
-                    textEl->rebuild()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_ERROR6, {{"error", err}}))->commence();
+                    textEl->rebuild()->text(std::format("<span foreground=\"#cc2222\">⚠ Error: {}</span>", err))->commence();
                     return;
                 }
 
                 const std::string_view APP_STEM = app.contains(' ') ? app.substr(0, app.find(' ')) : app;
 
                 if (appExists(std::string{APP_STEM}))
-                    textEl->rebuild()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_APPINST, {{"name", std::string(app)}}))->commence();
+                    textEl->rebuild()->text(std::format("<span foreground=\"#22cc22\">✓ {} is installed</span>", app))->commence();
                 else
-                    textEl->rebuild()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_APPNOINST, {{"name", std::string(app)}}))->commence();
+                    textEl->rebuild()->text(std::format("<span foreground=\"#cc2222\">⚠ {} is not installed</span>", app))->commence();
             };
 
             defaultLayout->addChild(spaceOut(label,
@@ -587,9 +641,9 @@ static void initTabs() {
             updateText(text, arr[0]);
         };
 
-        addSelector("terminal", I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_TERM).c_str(), TERMINALS);
-        addSelector("fileManager", I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_FILES).c_str(), FILE_MANAGERS);
-        addSelector("menu", I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_LAUNCHER).c_str(), LAUNCHERS);
+        addSelector("terminal", "Terminal", TERMINALS);
+        addSelector("fileManager", "File Manager", FILE_MANAGERS);
+        addSelector("menu", "Launcher", LAUNCHERS);
 
         defaultContainer->addChild(defaultLayout);
         layout->addChild(text);
@@ -597,7 +651,7 @@ static void initTabs() {
         layout->addChild(defaultContainer);
         layout->addChild(hr);
         layout->addChild(CTextBuilder::begin()
-                             ->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CHANGELATER))
+                             ->text("<i>You can always change these later in your hyprland.lua</i>")
                              ->color([] { return state.backend->getPalette()->m_colors.text; })
                              ->commence());
         layout->addChild(spacer);
@@ -611,8 +665,7 @@ static void initTabs() {
         // Tab 4
         auto nullEl = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
         auto layout = CColumnLayoutBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
-        auto text =
-            CTextBuilder::begin()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONTENT4))->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
+        auto text   = CTextBuilder::begin()->text(TAB4_CONTENT)->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
         auto spacer = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_ABSOLUTE, CDynamicSize::HT_SIZE_ABSOLUTE, {1, 1}})->commence();
         spacer->setGrow(true);
 
@@ -628,8 +681,7 @@ static void initTabs() {
         // Tab 5
         auto nullEl = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
         auto layout = CColumnLayoutBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
-        auto text =
-            CTextBuilder::begin()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONTENT5))->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
+        auto text   = CTextBuilder::begin()->text(TAB5_CONTENT)->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
         auto spacer = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_ABSOLUTE, CDynamicSize::HT_SIZE_ABSOLUTE, {1, 1}})->commence();
         spacer->setGrow(true);
 
@@ -645,8 +697,7 @@ static void initTabs() {
         // Tab 6
         auto nullEl = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
         auto layout = CColumnLayoutBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->commence();
-        auto text =
-            CTextBuilder::begin()->text(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_CONTENT6))->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
+        auto text   = CTextBuilder::begin()->text(TAB6_CONTENT)->color([] { return state.backend->getPalette()->m_colors.text; })->commence();
         auto spacer = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_ABSOLUTE, CDynamicSize::HT_SIZE_ABSOLUTE, {1, 1}})->commence();
         spacer->setGrow(true);
 
@@ -679,13 +730,8 @@ int main(int argc, char** argv, char** envp) {
     const auto WINDOW_SIZE = Vector2D{FONT_SIZE * 90.F, FONT_SIZE * 50.F};
 
     //
-    auto window = CWindowBuilder::begin()
-                      ->preferredSize(WINDOW_SIZE)
-                      ->minSize(WINDOW_SIZE)
-                      ->maxSize(WINDOW_SIZE)
-                      ->appTitle(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_TITLE))
-                      ->appClass("hyprland-welcome")
-                      ->commence();
+    auto window =
+        CWindowBuilder::begin()->preferredSize(WINDOW_SIZE)->minSize(WINDOW_SIZE)->maxSize(WINDOW_SIZE)->appTitle("Welcome to Hyprland")->appClass("hyprland-welcome")->commence();
 
     initTabs();
 
@@ -701,8 +747,7 @@ int main(int argc, char** argv, char** envp) {
     auto topNull = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 10}})->commence();
     topNull->setMargin(4);
 
-    state.topText =
-        CTextBuilder::begin()->color([] { return state.backend->getPalette()->m_colors.text; })->text(std::string(TITLES[state.tab]))->fontSize(CFontSize::HT_FONT_H2)->commence();
+    state.topText = CTextBuilder::begin()->color([] { return state.backend->getPalette()->m_colors.text; })->text(TITLES[state.tab])->fontSize(CFontSize::HT_FONT_H2)->commence();
     state.topText->setPositionMode(Hyprtoolkit::IElement::HT_POSITION_ABSOLUTE);
     state.topText->setPositionFlag(Hyprtoolkit::IElement::HT_POSITION_FLAG_CENTER, true);
 
@@ -724,12 +769,10 @@ int main(int argc, char** argv, char** envp) {
     state.buttonLayout = CRowLayoutBuilder::begin()->size({CDynamicSize::HT_SIZE_PERCENT, CDynamicSize::HT_SIZE_AUTO, {1, 1}})->gap(5)->commence();
     state.buttonLayout->setMargin(2);
 
-    state.buttonBack =
-        CButtonBuilder::begin()->label(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_BACK))->onMainClick([](SP<CButtonElement> self) { tabBack(); })->commence();
-    state.buttonNext =
-        CButtonBuilder::begin()->label(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_NEXT))->onMainClick([](SP<CButtonElement> self) { tabNext(); })->commence();
+    state.buttonBack       = CButtonBuilder::begin()->label("Back")->onMainClick([](SP<CButtonElement> self) { tabBack(); })->commence();
+    state.buttonNext       = CButtonBuilder::begin()->label("Next")->onMainClick([](SP<CButtonElement> self) { tabNext(); })->commence();
     state.buttonQuit       = CButtonBuilder::begin()
-                                 ->label(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_THANKS))
+                                 ->label("Thanks, but I don't need help")
                                  ->onMainClick([w = WP<IWindow>{window}](SP<CButtonElement> self) {
                                if (w)
                                    w->close();
@@ -737,7 +780,7 @@ int main(int argc, char** argv, char** envp) {
                                  })
                                  ->commence();
     state.buttonLaunchTerm = CButtonBuilder::begin()
-                                 ->label(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_OPENTERM))
+                                 ->label("Launch terminal")
                                  ->onMainClick([w = WP<IWindow>{window}](SP<CButtonElement> self) {
                                      for (const auto& t : TERMINALS) {
                                          if (!appExists(t))
@@ -750,7 +793,7 @@ int main(int argc, char** argv, char** envp) {
                                  })
                                  ->commence();
     state.buttonFinish     = CButtonBuilder::begin()
-                                 ->label(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_FINISH))
+                                 ->label("Finish")
                                  ->onMainClick([w = WP<IWindow>{window}](SP<CButtonElement> self) {
                                  removeAutogen();
                                  if (w)
@@ -758,19 +801,17 @@ int main(int argc, char** argv, char** envp) {
                                  state.backend->destroy();
                                  })
                                  ->commence();
-    state.buttonOpenWiki =
-        CButtonBuilder::begin()
-            ->label(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_WIKI))
-            ->onMainClick([w = WP<IWindow>{window}](SP<CButtonElement> self) {
-                CProcess proc("xdg-open", {"https://wiki.hypr.land/"});
-                proc.runAsync();
+    state.buttonOpenWiki   = CButtonBuilder::begin()
+                                 ->label("🔗 Open wiki")
+                                 ->onMainClick([w = WP<IWindow>{window}](SP<CButtonElement> self) {
+                                   CProcess proc("xdg-open", {"https://wiki.hypr.land/"});
+                                   proc.runAsync();
 
-                state.buttonOpenWiki->rebuild()->label(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_OPENED))->commence();
-                state.wikiOpenTimer = state.backend->addTimer(
-                    std::chrono::seconds(1),
-                    [](ASP<CTimer> t, void* d) { state.buttonOpenWiki->rebuild()->label(I18n::i18nEngine()->localize(I18n::TXT_KEY_WELCOME_WIKI))->commence(); }, nullptr);
-            })
-            ->commence();
+                                   state.buttonOpenWiki->rebuild()->label("🔗 Opened in your browser")->commence();
+                                   state.wikiOpenTimer = state.backend->addTimer(
+                                       std::chrono::seconds(1), [](ASP<CTimer> t, void* d) { state.buttonOpenWiki->rebuild()->label("🔗 Open wiki")->commence(); }, nullptr);
+                                 })
+                                 ->commence();
 
     state.buttonSpacer = CNullBuilder::begin()->size({CDynamicSize::HT_SIZE_ABSOLUTE, CDynamicSize::HT_SIZE_ABSOLUTE, {1, 1}})->commence();
     state.buttonSpacer->setGrow(true);
